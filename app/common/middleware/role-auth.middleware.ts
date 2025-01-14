@@ -4,39 +4,43 @@ import expressAsyncHandler from "express-async-handler";
 import createHttpError from "http-errors";
 import process from "process";
 import { type IUser } from "../../user/user.dto";
+import UserSchema from "../../user/user.schema";
 
-export const roleAuth = (
-  roles: IUser['role'],
-  publicRoutes: string[] = []
-) =>
-  expressAsyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-      if (publicRoutes.includes(req.path)) {
-        next();
-        return;
-      }
-      const token = req.headers.authorization?.replace("Bearer ", "");
+const fetchUser = async (id:string) => {
+  return await UserSchema.findById(id).lean();
+}
 
-      if (!token) {
-        throw createHttpError(401, {
-          message: `Invalid token`,
-        });
-      }
+// Middleware for role-based authentication
+export const roleAuthMiddleware = expressAsyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const token = req.headers.authorization?.replace("bearer ", "");
 
-      const decodedUser = jwt.verify(token, process.env.JWT_SECRET!);
-      req.user = decodedUser as IUser;
-      const user = req.user as IUser;
-      if (user.role == null || ['ADMIN', 'USER'].includes(user.role)) {
-        throw createHttpError(401, { message: "Invalid user role" });
-      }
-      if (!roles.includes(user.role)) {
-        const type =
-          user.role.slice(0, 1) + user.role.slice(1).toLocaleLowerCase();
-
-        throw createHttpError(401, {
-          message: `${type} can not access this resource`,
-        });
-      }
-      next();
+    if (!token) {
+      throw createHttpError(401, {
+        message: "Token is required for authentication",
+      });
     }
-  );
+
+    // Verify token and attach the user information to the request object
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
+
+    if (typeof decodedToken !== "object" || decodedToken === null || !("email" in decodedToken || !decodedToken.id)) {
+      throw createHttpError(403, {
+        message: "Invalid Token",
+      });
+    }
+
+    const user = await fetchUser(decodedToken.id) as IUser;
+    
+    req.user = user as IUser;
+    
+    // Check if user has a valid role
+    if (!user.role || !['ADMIN', 'USER'].includes(user.role)) {
+      throw createHttpError(403, {
+        message: "Invalid or unauthorized user role",
+      });
+    }
+
+    next();
+  }
+);

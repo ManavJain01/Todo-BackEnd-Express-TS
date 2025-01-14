@@ -3,8 +3,6 @@ import { Router } from "express";
 import { catchError } from "../common/middleware/cath-error.middleware";
 import * as todoController from "./todo.controller";
 import * as todoValidator from "./todo.validation";
-import { roleAuth } from "../common/middleware/role-auth.middleware"
-// import roleAuthMiddleware from "../common/middleware/role-auth.middleware"
 
 const router = Router();
 

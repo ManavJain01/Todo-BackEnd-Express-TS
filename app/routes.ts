@@ -1,6 +1,6 @@
 import express from "express";
 
-import { roleAuth } from "./common/middleware/role-auth.middleware"
+import { roleAuthMiddleware } from "./common/middleware/role-auth.middleware"
 
 // Routes
 import userRoutes from "./user/user.route";
@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.use("/users", userRoutes);
 router.use("/login", loginRoutes);
-router.use("/todos", todoRoutes);
+router.use("/todos", roleAuthMiddleware, todoRoutes);
 router.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerJsonFile));
 
 export default router;
