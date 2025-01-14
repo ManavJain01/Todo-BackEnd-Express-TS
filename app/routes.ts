@@ -9,7 +9,8 @@ import todoRoutes from "./todo/todo.route";
 
 // Swagger
 import swaggerUi from "swagger-ui-express";
-import swaggerJsonFile from "../docs/swagger.json"
+// import swaggerJsonFile from "../docs/swagger.json"
+import swaggerJsonFile from "../swagger/swagger.json"
 
 // routes
 const router = express.Router();

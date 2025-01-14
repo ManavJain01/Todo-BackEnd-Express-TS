@@ -30,6 +30,11 @@ export const getTodoById = asyncHandler(async (req: Request, res: Response) => {
     res.send(createResponse(result))
 });
 
+export const getTodoByUserId = asyncHandler(async (req: Request, res: Response) => {
+    const result = await todoService.getTodoByUserId(req.user as IUser);
+    res.send(createResponse(result))
+});
+
 
 export const getAllTodos = asyncHandler(async (req: Request, res: Response) => {
     const result = await todoService.getAllTodos(req.user as IUser);

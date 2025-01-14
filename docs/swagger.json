@@ -34,99 +34,202 @@
   "paths": {
     "/users/": {
       "get": {
-        "description": "",
+        "summary": "Get all users",
+        "tags": ["Users"],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
           }
         }
       },
       "post": {
-        "description": "",
+        "summary": "Create a user",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "User created"
           }
         }
       }
     },
     "/users/{id}": {
       "get": {
-        "description": "",
+        "summary": "Get user by ID",
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "User data"
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       },
       "delete": {
-        "description": "",
+        "summary": "Delete user",
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "User deleted"
           }
         }
       },
       "put": {
-        "description": "",
+        "summary": "Update user",
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "User updated"
           }
         }
-      },
-      "patch": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
+      }
+    },
+    "/login/": {
+      "post": {
+        "summary": "Login User",
+        "tags": ["Login"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Login SuccessFully"
           }
         }
       }
     },
     "/todos/": {
       "get": {
-        "description": "",
+        "summary": "Get all todos",
+        "tags": ["Todos"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "List of todos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Todo"
+                  }
+                }
+              }
+            }
           }
         }
       },
       "post": {
-        "description": "",
+        "summary": "Create todo",
+        "tags": ["Todos"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Todo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Todo Created"
+          }
+        }
+      }
+    },
+    "/todos/user": {
+      "get": {
+        "summary": "All Todos By LoggedIn User",
+        "tags": ["Todos"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -136,12 +239,18 @@
     },
     "/todos/{id}": {
       "get": {
-        "description": "",
+        "summary": "Get Todo By Id",
+        "tags": ["Todos"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
             "type": "string"
           }
         ],
@@ -152,12 +261,18 @@
         }
       },
       "delete": {
-        "description": "",
+        "summary": "Delete todo",
+        "tags": ["Todos"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
             "type": "string"
           }
         ],
@@ -168,12 +283,18 @@
         }
       },
       "put": {
-        "description": "",
+        "summary": "Edit todo",
+        "tags": ["Todos"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
             "type": "string"
           }
         ],
@@ -184,12 +305,18 @@
         }
       },
       "patch": {
-        "description": "",
+        "summary": "Edit todo",
+        "tags": ["Todos"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
             "type": "string"
           }
         ],
@@ -197,208 +324,6 @@
           "200": {
             "description": "OK"
           }
-        }
-      }
-    },
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "patch": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    }
-  },
-  "definitions": {
-    "User": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "string"
-        },
-        "name": {
-          "type": "string",
-          "example": "string"
-        },
-        "email": {
-          "type": "string",
-          "example": "string"
-        },
-        "age": {
-          "type": "string",
-          "example": "number"
-        }
-      }
-    },
-    "UserCreation": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "example": "string"
-        },
-        "email": {
-          "type": "string",
-          "example": "string"
-        },
-        "password": {
-          "type": "string",
-          "example": "string"
-        }
-      }
-    },
-    "UserUpdate": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "example": "string"
-        },
-        "email": {
-          "type": "string",
-          "example": "string"
-        }
-      }
-    },
-    "errorResponse.400": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "number",
-          "example": 400
-        },
-        "message": {
-          "type": "string",
-          "example": "The request was malformed or invalid. Please check the request parameters."
-        }
-      }
-    },
-    "errorResponse.401": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "number",
-          "example": 401
-        },
-        "message": {
-          "type": "string",
-          "example": "Authentication failed or user lacks proper authorization."
-        }
-      }
-    },
-    "errorResponse.403": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "number",
-          "example": 403
-        },
-        "message": {
-          "type": "string",
-          "example": "You do not have permission to access this resource."
-        }
-      }
-    },
-    "errorResponse.404": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "number",
-          "example": 404
-        },
-        "message": {
-          "type": "string",
-          "example": "The requested resource could not be found on the server."
-        }
-      }
-    },
-    "errorResponse.500": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "number",
-          "example": 500
-        },
-        "message": {
-          "type": "string",
-          "example": "An unexpected error occurred on the server. Please try again later."
         }
       }
     }
