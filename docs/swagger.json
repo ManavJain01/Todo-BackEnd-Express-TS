@@ -34,141 +34,69 @@
   "paths": {
     "/users/": {
       "get": {
-        "summary": "Get all users",
-        "tags": ["Users"],
+        "description": "",
         "responses": {
           "200": {
-            "description": "List of users",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
       "post": {
-        "summary": "Create a user",
-        "tags": ["Users"],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
+        "description": "",
         "responses": {
-          "201": {
-            "description": "User created"
+          "200": {
+            "description": "OK"
           }
         }
       }
     },
     "/users/{id}": {
       "get": {
-        "summary": "Get user by ID",
-        "tags": ["Users"],
+        "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "User data"
-          },
-          "404": {
-            "description": "User not found"
+            "description": "OK"
           }
         }
       },
       "delete": {
-        "summary": "Delete user",
-        "tags": ["Users"],
+        "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
-        "responses": {
-          "204": {
-            "description": "User deleted"
-          }
-        }
-      },
-      "put": {
-        "summary": "Update user",
-        "tags": ["Users"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
-            "description": "User updated"
+            "description": "OK"
           }
         }
       }
     },
     "/login/": {
       "post": {
-        "summary": "Login User",
-        "tags": ["Login"],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
+        "description": "",
         "responses": {
           "200": {
-            "description": "Login SuccessFully"
+            "description": "OK"
           }
         }
       }
     },
     "/todos/": {
       "get": {
-        "summary": "Get all todos",
-        "tags": ["Todos"],
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -178,23 +106,12 @@
         ],
         "responses": {
           "200": {
-            "description": "List of todos",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Todo"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
       "post": {
-        "summary": "Create todo",
-        "tags": ["Todos"],
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -202,27 +119,16 @@
             "type": "string"
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Todo"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
-            "description": "Todo Created"
+            "description": "OK"
           }
         }
       }
     },
     "/todos/user": {
       "get": {
-        "summary": "All Todos By LoggedIn User",
-        "tags": ["Todos"],
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -239,8 +145,7 @@
     },
     "/todos/{id}": {
       "get": {
-        "summary": "Get Todo By Id",
-        "tags": ["Todos"],
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -261,8 +166,7 @@
         }
       },
       "delete": {
-        "summary": "Delete todo",
-        "tags": ["Todos"],
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -283,8 +187,7 @@
         }
       },
       "put": {
-        "summary": "Edit todo",
-        "tags": ["Todos"],
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -305,8 +208,7 @@
         }
       },
       "patch": {
-        "summary": "Edit todo",
-        "tags": ["Todos"],
+        "description": "",
         "parameters": [
           {
             "name": "id",

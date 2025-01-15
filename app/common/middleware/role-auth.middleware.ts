@@ -5,6 +5,7 @@ import createHttpError from "http-errors";
 import process from "process";
 import { type IUser } from "../../user/user.dto";
 import UserSchema from "../../user/user.schema";
+import { decodeAccessToken } from "../helper/jwt.helper";
 
 const fetchUser = async (id:string) => {
   return await UserSchema.findById(id).lean();
@@ -21,16 +22,7 @@ export const roleAuthMiddleware = expressAsyncHandler(
       });
     }
 
-    // Verify token and attach the user information to the request object
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
-
-    if (typeof decodedToken !== "object" || decodedToken === null || !("email" in decodedToken || !decodedToken.id)) {
-      throw createHttpError(403, {
-        message: "Invalid Token",
-      });
-    }
-
-    const user = await fetchUser(decodedToken.id) as IUser;
+    const user = await decodeAccessToken(token) as IUser;
     
     req.user = user as IUser;
     

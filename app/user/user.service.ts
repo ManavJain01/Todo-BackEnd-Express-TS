@@ -1,25 +1,13 @@
 import { type IUser } from "./user.dto";
 import UserSchema from "./user.schema";
-
-// JWT
-import jwt from "jsonwebtoken";
+import { generateAccessTokenAndRefreshToken } from "../common/helper/jwt.helper";
 
 export const createUser = async (data: IUser) => {
-    const SECRET_KEY = process.env.JWT_SECRET ?? "";
     const result = await UserSchema.create({ ...data });
 
-    const token = jwt.sign(
-        {
-            id: result._id,
-            email: result.email,
-        },
-        SECRET_KEY,
-        {
-            expiresIn: "1h", // Token expiration time
-        }
-    );
+    const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(result);
 
-    return { user: result, token };
+    return { user: result, accessToken, refreshToken };
 };
 
 export const updateUser = async (id: string, data: IUser) => {
